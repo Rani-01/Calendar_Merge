@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Aggregator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>📅 Calendar Aggregator</h1>
+                    <p>View all your schedules from multiple calendars in one place</p>
+                    <div class="providers" id="providers">
+                        <span class="provider-badge">Loading...</span>
+                    </div>
+                </div>
+                <button class="settings-btn" onclick="toggleSettings()">⚙️ Settings</button>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-content">
+                <h2>⚙️ Calendar Settings</h2>
+                
+                <!-- Credentials Setup Section -->
+                <div class="credentials-section">
+                    <h3>Step 1: Add Your OAuth Credentials</h3>
+                    <p>Enter your OAuth app credentials below. <a href="https://console.cloud.google.com/" target="_blank">Get Google credentials</a> | <a href="https://portal.azure.com/" target="_blank">Get Microsoft credentials</a></p>
+                    
+                    <div class="credential-form">
+                        <h4>📧 Google Calendar</h4>
+                        <div class="form-group">
+                            <label>Client ID:</label>
+                            <input type="text" id="googleClientId" placeholder="Enter Google Client ID" />
+                        </div>
+                        <div class="form-group">
+                            <label>Client Secret:</label>
+                            <input type="password" id="googleClientSecret" placeholder="Enter Google Client Secret" />
+                        </div>
+                    </div>
+                    
+                    <div class="credential-form">
+                        <h4>📅 Outlook Calendar</h4>
+                        <div class="form-group">
+                            <label>Client ID:</label>
+                            <input type="text" id="outlookClientId" placeholder="Enter Microsoft Client ID" />
+                        </div>
+                        <div class="form-group">
+                            <label>Client Secret:</label>
+                            <input type="password" id="outlookClientSecret" placeholder="Enter Microsoft Client Secret" />
+                        </div>
+                    </div>
+                    
+                    <button class="save-credentials-btn" onclick="saveCredentials()">
+                        💾 Save Credentials
+                    </button>
+                    
+                    <div id="credentialMessage" class="credential-message"></div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- Connection Section -->
+                <div class="connection-section">
+                    <h3>Step 2: Connect Your Calendars</h3>
+                    <p>After saving credentials, click the buttons below to connect</p>
+                    
+                    <div class="auth-section">
+                        <div class="auth-provider">
+                            <div class="provider-info">
+                                <span class="provider-icon">📧</span>
+                                <div>
+                                    <h4>Google Calendar</h4>
+                                    <p id="googleStatus" class="status-text">Checking...</p>
+                                </div>
+                            </div>
+                            <button id="googleLoginBtn" class="login-btn gmail" onclick="loginGoogle()">
+                                Connect Google
+                            </button>
+                        </div>
+                        
+                        <div class="auth-provider">
+                            <div class="provider-info">
+                                <span class="provider-icon">📅</span>
+                                <div>
+                                    <h4>Outlook Calendar</h4>
+                                    <p id="outlookStatus" class="status-text">Checking...</p>
+                                </div>
+                            </div>
+                            <button id="outlookLoginBtn" class="login-btn outlook" onclick="loginOutlook()">
+                                Connect Outlook
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="close-settings-btn" onclick="toggleSettings()">Close</button>
+            </div>
+        </div>
+
+        <!-- View Selector -->
+        <div class="view-selector">
+            <label>View:</label>
+            <button class="view-btn active" data-view="monthly" onclick="setActiveView('monthly')">
+                Monthly
+            </button>
+            <button class="view-btn" data-view="weekly" onclick="setActiveView('weekly')">
+                Weekly
+            </button>
+            <button class="view-btn" data-view="daily" onclick="setActiveView('daily')">
+                Daily
+            </button>
+        </div>
+
+        <!-- Calendar Container -->
+        <div class="calendar-container">
+            <div id="calendar">
+                <div class="loading">Loading calendar...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Event Details</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="event-detail">
+                <label>Provider:</label>
+                <p id="modalProvider"></p>
+            </div>
+            <div class="event-detail">
+                <label>Time:</label>
+                <p id="modalTime"></p>
+            </div>
+            <div class="event-detail">
+                <label>Description:</label>
+                <p id="modalDescription"></p>
+            </div>
+            <div class="event-detail">
+                <label>Location:</label>
+                <p id="modalLocation"></p>
+            </div>
+            <div class="event-detail">
+                <label>Attendees:</label>
+                <p id="modalAttendees"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
